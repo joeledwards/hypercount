@@ -1,0 +1,9 @@
+version: "3"
+services:
+  redis:
+    image: redis:4-alpine
+    ports:
+      - "6379"
+  node:
+    image: node:8-alpine
+    command: node -e 'setInterval((() => console.log(`[$${new Date().toISOString()}]`)), 15000)'
