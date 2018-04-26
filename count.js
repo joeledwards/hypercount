@@ -5,7 +5,7 @@ const client = new Redis({
 })
 
 const logName = 'hyper-log'
-const max = 1000
+const max = 10000
 let reference
 
 async function run () {
@@ -26,7 +26,9 @@ async function step (remaining) {
     step(remaining - 1)
   } else {
     const count = await client.pfcount(logName)
-    console.log(`HLL=${count} REF=${reference.size}`)
+    const diff = count - reference.size
+    const pct = (Math.abs(diff) / count * 100).toFixed(1)
+    console.log(`HLL=${count} REF=${reference.size} DIFF=${diff} PCT=${pct}%`)
     run()
   }
 }
