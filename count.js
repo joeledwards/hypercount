@@ -5,11 +5,12 @@ const client = new Redis({
 })
 
 const logName = 'hyper-log'
-const max = 100
-const reference = new Set()
+const max = 1000
+let reference
 
 async function run () {
   try {
+    reference = new Set()
     await client.flushdb()
     step(max)
   } catch (error) {
@@ -26,6 +27,7 @@ async function step (remaining) {
   } else {
     const count = await client.pfcount(logName)
     console.log(`HLL=${count} REF=${reference.size}`)
+    run()
   }
 }
 
