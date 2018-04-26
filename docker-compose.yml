@@ -6,4 +6,7 @@ services:
       - "6379"
   node:
     image: node:8-alpine
-    command: node -e 'setInterval((() => console.log(`[$${new Date().toISOString()}]`)), 15000)'
+    volumes:
+      - .:/opt/app
+    working_dir: /opt/app
+    command: node count.js
